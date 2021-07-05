@@ -33,5 +33,4 @@ class IPO(models.Model):
 
     def save(self, *args, **kwargs):
         self.detail_link = "https://www.38.co.kr" + self.detail_link
-
         super(IPO, self).save()

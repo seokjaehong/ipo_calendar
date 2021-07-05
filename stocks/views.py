@@ -10,7 +10,7 @@ from stocks.serializer import IPOSerializer
 
 
 class Run(APIView):
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         s = StockCrawler()
         result = s.get_list()
         serializer = IPOSerializer(result, many=True)

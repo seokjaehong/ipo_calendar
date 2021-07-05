@@ -8,7 +8,7 @@ class StockCrawler():
     def __init__(self):
         self.url = 'https://www.38.co.kr/html/fund/index.htm?o=k'
 
-    def get_list(self):
+    def get_list(self,created=True):
         response = requests.get(self.url)
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
@@ -34,19 +34,23 @@ class StockCrawler():
             detail_link = detail_link
             ipoid = re.split("=|&l", detail_link)[2]
             # print(name, schedule, fixed_price, hoped_price, compete_rate, underwriter)
-            from stocks.models import IPO
-            ipo, updated = IPO.objects.update_or_create(
-                name=name,
-                ipo_id=ipoid,
-                defaults={
-                    "schedule": schedule,
-                    "fixed_price": fixed_price,
-                    "hoped_price": hoped_price,
-                    "compete_rate": compete_rate,
-                    "underwriter": underwriter,
-                    "detail_link": detail_link,
-                    "is_finished": False if fixed_price==0 else True,
-                }
-            )
+            ipo = {
+                "name":name,
+                "schedule":schedule,
+            }
+            # from stocks.models import IPO
+            # ipo, updated = IPO.objects.update_or_create(
+            #     name=name,
+            #     ipo_id=ipoid,
+            #     defaults={
+            #         "schedule": schedule,
+            #         "fixed_price": fixed_price,
+            #         "hoped_price": hoped_price,
+            #         "compete_rate": compete_rate,
+            #         "underwriter": underwriter,
+            #         "detail_link": detail_link,
+            #         "is_finished": False if fixed_price==0 else True,
+            #     }
+            # )
             result.append(ipo)
         return result
