@@ -1,4 +1,4 @@
-SECRET.json
+secrets.json
 .idea
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python

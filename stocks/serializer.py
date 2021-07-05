@@ -6,6 +6,4 @@ from stocks.models import IPO
 class IPOSerializer(serializers.ModelSerializer):
     class Meta:
         model = IPO
-        fields = {
-            '__all__'
-        }
+        fields = ('ipo_id',)
