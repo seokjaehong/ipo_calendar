@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_celery_beat',
 
     'stocks',
     'notice',
@@ -157,3 +158,4 @@ CACHES = {
         }
     }
 }
+CELERY_ENABLE_UTC = False
