@@ -9,3 +9,8 @@ def say_hello():
 @shared_task
 def test_task():
     print("hello world")
+
+@shared_task()
+def daily_check():
+    from notice.telegram import job
+    job()
