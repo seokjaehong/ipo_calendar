@@ -31,32 +31,28 @@ class StockCrawler():
             start_year, start_month, start_date = map(int, (start_str[:4], start_str[5:7], start_str[8:10]))
             end_month, end_date = end_str.split(".")
 
+            start_dt = datetime.strptime(str(start_year) + '-' + str(start_month) + '-' + str(start_date), '%Y-%m-%d')
             end_dt = datetime.strptime(str(start_year) + '-' + str(end_month) + '-' + str(end_date), '%Y-%m-%d')
 
-            if date_now <= end_dt:
-                try:
-                    fixed_price = int(data_list[2].replace(",", ""))
-                except ValueError:
-                    fixed_price = 0
+            try:
+                fixed_price = int(data_list[2].replace(",", ""))
+            except ValueError:
+                fixed_price = 0
 
-                detail_link = data[row].find('a')['href']
-                ipo = defaultdict(dict)
-                ipo["ipo_id"] = re.split("=|&l", str(detail_link))[2]
-                ipo["name"] = data_list[0].strip()
-                ipo["schedule"] = schedule
-                # ipo["시작일"] = start_str
-                # ipo["종료일"] = str(start_year) + '.' + end_str
-                ipo["hoped_price"] = data_list[3].strip()
-                ipo["fixed_price"] = fixed_price
-                ipo["compete_rate"] = data_list[4].strip()
-                ipo["underwriter"] = data_list[5].split(',')
-                ipo["detail_link"] = detail_link
-                ipo["is_finished"] = False
-                result.append(ipo)
-            else:
-                print(data_list)
-        # from pprint import pprint
-        # pprint(result)
+            detail_link = data[row].find('a')['href']
+            ipo = defaultdict(dict)
+            ipo["ipo_id"] = re.split("=|&l", str(detail_link))[2]
+            ipo["name"] = data_list[0].strip()
+            ipo["schedule"] = schedule
+            ipo["start_date"] = start_dt
+            ipo["end_date"] = end_dt
+            ipo["hoped_price"] = data_list[3].strip()
+            ipo["fixed_price"] = fixed_price
+            ipo["compete_rate"] = data_list[4].strip()
+            ipo["underwriter"] = data_list[5].split(',')
+            ipo["detail_link"] = detail_link
+            ipo["is_finished"] = False
+            result.append(ipo)
         return result
 
 
@@ -65,9 +61,11 @@ if __name__ == '__main__':
 
     s = StockCrawler()
     ipo_list = s.get_list()
+
     for ipo in ipo_list:
         obj, updated = IPO.objects.update_or_create(
             name=ipo['name'],
             ipo_id=ipo['ipo_id'],
             defaults={**ipo}
         )
+        print(obj)
