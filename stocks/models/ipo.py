@@ -39,7 +39,10 @@ class IPO(models.Model):
         self.detail_link = "https://www.38.co.kr" + self.detail_link
         super(IPO, self).save()
 
+    @property
+    def stock_brokers_list(self):
+        return ' , '.join([p.name for p in self.stock_brokers.all()])
+
     def __str__(self):
-        return f'name: {self.name} ,일정: {self.schedule}, 확정가 : {self.fixed_price},희망가: {self.hoped_price},경쟁률 : {self.compete_rate}, 주간사: {self.underwriter} , 종료여부:{self.is_finished}, $시작일: {self.start_date}, $종료일: {self.end_date}'
-
-
+        # return f'name: {self.name} ,일정: {self.schedule}, 확정가 : {self.fixed_price},희망가: {self.hoped_price},경쟁률 : {self.compete_rate}, 주간사: {self.underwriter} , 종료여부:{self.is_finished}, $시작일: {self.start_date}, $종료일: {self.end_date}'
+        return f'{self.name}:{self.stock_brokers_list} '

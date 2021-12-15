@@ -1,5 +1,6 @@
 # model를 import
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from rest_framework.views import APIView
 
 
 def start_task(request):
@@ -15,3 +16,4 @@ def start_task(request):
             name='daily_notice',
             task='notice.tasks.say_hello',
         )
+

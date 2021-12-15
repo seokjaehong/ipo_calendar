@@ -6,7 +6,6 @@ from config import settings
 __all__ = (
     'StockBroker',
     'User',
-    'UserAccount',
 )
 
 
@@ -43,25 +42,3 @@ class User(AbstractUser):
     def __str__(self):
         return f'{self.first_name}{self.last_name}'
 
-#
-# class UserAccount(models.Model):
-#     stock_broker = models.ForeignKey(
-#         StockBroker,
-#         on_delete=models.CASCADE,
-#         related_name='stock_broker_user_list',
-#     )
-#     user = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         on_delete=models.CASCADE,
-#         related_name='user_stock_broker_list',
-#     )
-#     created = models.DateTimeField('생성시간', auto_now_add=True)
-#     updated = models.DateTimeField('수정시간', auto_now=True)
-#
-#     class Meta:
-#         unique_together = (
-#             ('stock_broker', 'user'),
-#         )
-#
-#     def __str__(self):
-#         return f'증권사: {self.stock_broker}, 유저: {self.user}'

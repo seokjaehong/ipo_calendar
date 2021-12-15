@@ -20,4 +20,5 @@ from django.urls import path, include
 
 urlpatterns = [
     # path('run/', DoJob.as_view()),
+    # path("",NoticeListView.as_view()),
 ]

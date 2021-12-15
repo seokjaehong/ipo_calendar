@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from .models import User
+from .models import User, StockBroker
 
 
 class UserAdmin(DjangoUserAdmin):
@@ -39,3 +39,4 @@ class UserAdmin(DjangoUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(StockBroker)
