@@ -5,6 +5,8 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
+from account.models import Company
+
 
 class StockCrawler():
     def __init__(self):
@@ -51,21 +53,34 @@ class StockCrawler():
             ipo["compete_rate"] = data_list[4].strip()
             ipo["underwriter"] = data_list[5].split(',')
             ipo["detail_link"] = detail_link
-            ipo["is_finished"] = False
+            ipo["is_finished"] = True if end_dt<=date_now else False
             result.append(ipo)
         return result
 
 
 if __name__ == '__main__':
-    from stocks.models import IPO
+    from stocks.models import IPO, IPOCompany
 
     s = StockCrawler()
-    ipo_list = s.get_list()
+    ipo_c_list = s.get_list()
 
-    for ipo in ipo_list:
-        obj, updated = IPO.objects.update_or_create(
-            name=ipo['name'],
-            ipo_id=ipo['ipo_id'],
-            defaults={**ipo}
+    companys = Company.objects.all()
+    company_names = companys.values_list("name", flat=True)
+
+    for ipo_c in ipo_c_list:
+        sets = set(ipo_c['underwriter']) - set(company_names)
+        for s in sets:
+            Company.objects.get_or_create(
+                name=s
+            )
+
+        ipo_obj, updated = IPO.objects.update_or_create(
+            name=ipo_c['name'],
+            ipo_id=ipo_c['ipo_id'],
+            defaults={**ipo_c}
         )
-        print(obj)
+        for c in ipo_c['underwriter']:
+            IPOCompany.objects.update_or_create(
+                ipo=ipo_obj,
+                company=companys.filter(name=c).first()
+            )

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django_celery_beat',
-
+    'account',
     'stocks',
     'notice',
 ]
@@ -92,12 +92,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+#
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'keti-study',
+        'USER': 'keti',
+        'PASSWORD': 'ketiict12#$',
+        #'HOST': 'digitaltwin-op-v1.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
+        'HOST':'keti-study.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+           'init_command': 'SET default_storage_engine=INNODB',
+        }
+    }}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -137,6 +152,7 @@ STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+AUTH_USER_MODEL = 'account.Member'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
