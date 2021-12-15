@@ -9,6 +9,8 @@ __all__ = (
     'IPO',
 )
 
+from account.models import StockBroker
+
 
 class IPO(models.Model):
     name = models.CharField('종목명', max_length=20, default="")
@@ -24,8 +26,8 @@ class IPO(models.Model):
 
     is_finished = models.BooleanField('청약종료여부', default=False)
 
-    created = models.DateTimeField('생성일', auto_now=True)
-    updated = models.DateTimeField('생성일', auto_now_add=True)
+    created = models.DateTimeField('생성일', auto_now_add=True)
+    updated = models.DateTimeField('수정일', auto_now=True)
 
     def set_underwriter(self, x):
         self.underwriter = json.dumps(x)

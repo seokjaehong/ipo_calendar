@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from stocks.models import IPO
+from stocks.models import IPO, IPOStockBroker
+
 
 @admin.register(IPO)
 class IPOAdmin(admin.ModelAdmin):
@@ -18,3 +19,10 @@ class IPOAdmin(admin.ModelAdmin):
         'is_finished',
     ]
     ordering = ['-ipo_id']
+
+@admin.register(IPOStockBroker)
+class IPOStockBroker(admin.ModelAdmin):
+    list_display = [
+        'id',
+
+    ]

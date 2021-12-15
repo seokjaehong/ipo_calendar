@@ -3,10 +3,10 @@ from django.contrib import admin
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from .models import Member, MemberCompany
+from .models import User, UserAccount
 
 
-class MemberAdmin(DjangoUserAdmin):
+class UserAdmin(DjangoUserAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (
@@ -20,6 +20,7 @@ class MemberAdmin(DjangoUserAdmin):
         ),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Accounts', {'fields': ('accounts',)})
     )
     # add_fieldsets = (
     #     (None, {
@@ -27,12 +28,22 @@ class MemberAdmin(DjangoUserAdmin):
     #         'fields': ('email', 'username', 'password1', 'password2'),
     #     }),
     # )
-    list_display = ('username','first_name','last_name','email', 'is_staff', 'is_superuser',)
+    list_display = (
+        'username', 'first_name', 'last_name', 'email', 'is_staff', 'is_superuser', 'get_accounts',
+    )
     search_fields = ('email', 'username',)
     ordering = ('email',)
 
+    def get_accounts(self,obj):
+        return " \n".join([p.name for p in obj.accounts.all()])
 
 
+class UserAccountAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user',)
+    # filter_horizontal = (
+    #     'user_set', 'stock_broker_set',
+    # )
 
-admin.site.register(Member, MemberAdmin)
-admin.site.register(MemberCompany)
+
+admin.site.register(User, UserAdmin)
+admin.site.register(UserAccount, UserAccountAdmin)
