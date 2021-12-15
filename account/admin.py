@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from .models import User, UserAccount
+from .models import User
 
 
 class UserAdmin(DjangoUserAdmin):
@@ -38,12 +38,4 @@ class UserAdmin(DjangoUserAdmin):
         return " \n".join([p.name for p in obj.accounts.all()])
 
 
-class UserAccountAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user',)
-    # filter_horizontal = (
-    #     'user_set', 'stock_broker_set',
-    # )
-
-
 admin.site.register(User, UserAdmin)
-admin.site.register(UserAccount, UserAccountAdmin)

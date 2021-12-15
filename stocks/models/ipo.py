@@ -25,7 +25,7 @@ class IPO(models.Model):
     end_date = models.DateField('종료일', blank=True, null=True)
 
     is_finished = models.BooleanField('청약종료여부', default=False)
-
+    stock_brokers = models.ManyToManyField(StockBroker)
     created = models.DateTimeField('생성일', auto_now_add=True)
     updated = models.DateTimeField('수정일', auto_now=True)
 

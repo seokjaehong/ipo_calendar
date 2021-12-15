@@ -79,6 +79,9 @@ if __name__ == '__main__':
             ipo_id=ipo_c['ipo_id'],
             defaults={**ipo_c}
         )
+        stock_broker_list = StockBroker.objects.filter(name__in=ipo_c['underwriter'])
+        print( ipo_obj, stock_broker_list)
+        ipo_obj.stock_brokers.add(*stock_broker_list)
         for c in ipo_c['underwriter']:
             IPOStockBroker.objects.update_or_create(
                 ipo=ipo_obj,
