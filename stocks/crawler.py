@@ -5,7 +5,8 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-from account.models import StockBroker
+from account.models import StockBroker, User
+from diary.models import Order
 
 
 class StockCrawler():
@@ -59,13 +60,15 @@ class StockCrawler():
 
 
 if __name__ == '__main__':
-    from stocks.models import IPO, IPOStockBroker
+    from stocks.models import IPO
 
     s = StockCrawler()
     ipo_c_list = s.get_list()
 
     stock_brokers = StockBroker.objects.all()
     stock_brokers_name = stock_brokers.values_list("name", flat=True)
+
+    users = User.objects.all().prefetch_related('accounts')
 
     for ipo_c in ipo_c_list:
         sets = set(ipo_c['underwriter']) - set(stock_brokers_name)
@@ -80,10 +83,14 @@ if __name__ == '__main__':
             defaults={**ipo_c}
         )
         stock_broker_list = StockBroker.objects.filter(name__in=ipo_c['underwriter'])
-        print( ipo_obj, stock_broker_list)
         ipo_obj.stock_brokers.add(*stock_broker_list)
-        for c in ipo_c['underwriter']:
-            IPOStockBroker.objects.update_or_create(
+
+        for user in users:
+            is_possible = False
+            if ipo_obj.stock_brokers.all() & user.accounts.all() and ipo_obj.is_finished==False:
+                is_possible = True
+            Order.objects.update_or_create(
+                user=user,
                 ipo=ipo_obj,
-                stock_broker=stock_brokers.filter(name=c).first()
+                defaults={'is_possible': is_possible }
             )

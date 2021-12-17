@@ -31,13 +31,11 @@ class UserAdmin(DjangoUserAdmin):
     #     }),
     # )
     list_display = (
-        'username', 'first_name', 'last_name', 'email', 'is_staff', 'is_superuser', 'get_accounts',
+        'username', 'first_name', 'last_name', 'email', 'is_staff', 'is_superuser', 'accounts_list',
     )
     search_fields = ('email', 'username',)
     ordering = ('email',)
 
-    def get_accounts(self,obj):
-        return " \n".join([p.name for p in obj.accounts.all()])
 
     formfield_overrides = {
         models.ManyToManyField:{'widget':CheckboxSelectMultiple}

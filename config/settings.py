@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'account',
     'stocks',
-    'notice',
+    'diary',
 ]
 
 MIDDLEWARE = [
@@ -194,10 +194,9 @@ JAZZMIN_SETTINGS = {
     # "welcome_sign": "Welcome to the library",
     "copyright": "SEOKJAE HONG",
     "usermenu_links": [
-        {"name": "Support", "url":
-            "https://github.com/seokjaehong/",
+        {"name": "Support", "url": "https://github.com/seokjaehong/",
          "new_window": True},
-        {"model": "auth.user"}
+        # {"model": "account.user"}
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
@@ -214,7 +213,7 @@ JAZZMIN_SETTINGS = {
         {"model": "stocks.ipo"},
         # App with dropdown menu to all its models pages (Permissions checked against models)
 
-        {'app': 'account'}
+        # {'app': 'account.group'}
 
     ],
 
@@ -223,12 +222,17 @@ JAZZMIN_SETTINGS = {
     # "order_with_respect_to": ["account.User"],
 
     "hide_apps": ['django_celery_beat'],
-    #"hide_models":['group'],
-    # "icons": {
-    #     "account": "tshirt",
-    #     "stocks": "fas fa-user",
-    #     # auth.Group": "fas fa-users",
-    # },
+    "hide_models": ['group'],
+    "icons": {
+        "account": "fas fa-user",
+        "account.user": "fas fa-user-alt",
+        "account.group": "fas fa-user-friend",
+        "account.stockbroker": "fas fa-mosque",
+        "stocks": "fas fa-money-bill-wave",
+        "stocks.ipo": "fas fa-money-bill-alt",
+        "diary.order": "fas fa-snowman",
+        #     # auth.Group": "fas fa-users",
+    },
 }
 JAZZMIN_UI_TWEAKS = {
     "theme": "sandstone",
