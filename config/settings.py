@@ -16,8 +16,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.core.exceptions import ImproperlyConfigured
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -46,6 +47,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -105,14 +107,13 @@ DATABASES = {
         'NAME': 'keti-study-v3',
         'USER': 'keti',
         'PASSWORD': 'ketiict12#$',
-        #'HOST': 'digitaltwin-op-v1.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
-        'HOST':'keti-study.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
+        # 'HOST': 'digitaltwin-op-v1.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
+        'HOST': 'keti-study.cjwotfzygzve.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
-           'init_command': 'SET default_storage_engine=INNODB',
+            'init_command': 'SET default_storage_engine=INNODB',
         }
     }}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -149,6 +150,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# FILE_URL = '/.files/'
+
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+# 개발 과정에선, 정확히는 settings.py의 DEBUG가 True로 설정되어 있으면 STATIC_ROOT 설정은 작용하지 않으며, STATIC_ROOT는 실 서비스 환경을 위한 설정 항목입니다.
+# 그래서 개발 과정에선 STATIC_ROOT에 지정한 경로가 실제로 존재하지 않거나 아예 STATIC_ROOT 설정 항목 자체가 없어도 문제없이 동작합니다.
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
+MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -175,3 +186,51 @@ CACHES = {
     }
 }
 CELERY_ENABLE_UTC = False
+JAZZMIN_SETTINGS = {
+    'site_title': "KETI 437 IPO",
+    'site_header': "KETI 437 IPO",
+    "site_logo": "img/keti.png",
+    "site_logo_classes": "img-circle",
+    # "welcome_sign": "Welcome to the library",
+    "copyright": "SEOKJAE HONG",
+    "usermenu_links": [
+        {"name": "Support", "url":
+            "https://github.com/seokjaehong/",
+         "new_window": True},
+        {"model": "auth.user"}
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {
+            "name": "Support", "url": "https://github.com/seokjaehong/",
+            "new_window": True
+        },
+        {"model": "stocks.ipo"},
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+
+        {'app': 'account'}
+
+    ],
+
+    # List of apps (and/or models) to base side menu ordering off of (
+    # does not need to contain all apps/models)
+    # "order_with_respect_to": ["account.User"],
+
+    "hide_apps": ['django_celery_beat'],
+    #"hide_models":['group'],
+    # "icons": {
+    #     "account": "tshirt",
+    #     "stocks": "fas fa-user",
+    #     # auth.Group": "fas fa-users",
+    # },
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "sandstone",
+    "dark_mode_theme": "darkly",
+}

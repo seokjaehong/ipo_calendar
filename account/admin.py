@@ -1,8 +1,10 @@
 from django.contrib import admin
-
+from django.db import models
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.forms import CheckboxSelectMultiple
+
 from .models import User, StockBroker
 
 
@@ -18,7 +20,7 @@ class UserAdmin(DjangoUserAdmin):
                 'first_name', 'last_name', 'phone_number', 'is_get_email', 'is_get_sms', 'is_get_app_push',
                 'is_usable')}
         ),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Accounts', {'fields': ('accounts',)})
     )
@@ -37,6 +39,9 @@ class UserAdmin(DjangoUserAdmin):
     def get_accounts(self,obj):
         return " \n".join([p.name for p in obj.accounts.all()])
 
+    formfield_overrides = {
+        models.ManyToManyField:{'widget':CheckboxSelectMultiple}
+    }
 
 admin.site.register(User, UserAdmin)
 admin.site.register(StockBroker)
