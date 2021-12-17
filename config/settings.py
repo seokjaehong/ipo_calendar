@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'account',
     'stocks',
     'diary',
+    'store',
 ]
 
 MIDDLEWARE = [
@@ -231,6 +232,8 @@ JAZZMIN_SETTINGS = {
         "stocks": "fas fa-money-bill-wave",
         "stocks.ipo": "fas fa-money-bill-alt",
         "diary.order": "fas fa-snowman",
+        "diary.review": "fas fa-hashtag",
+        "store.store": "fas fa-store"
         #     # auth.Group": "fas fa-users",
     },
 }

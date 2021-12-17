@@ -45,3 +45,7 @@ class User(AbstractUser):
     @property
     def accounts_list(self):
         return " \n".join([p.name for p in self.accounts.all()])
+
+    @property
+    def full_name(self):
+        return f'{self.last_name}{self.first_name}'

@@ -36,10 +36,10 @@ class UserAdmin(DjangoUserAdmin):
     search_fields = ('email', 'username',)
     ordering = ('email',)
 
-
     formfield_overrides = {
-        models.ManyToManyField:{'widget':CheckboxSelectMultiple}
+        models.ManyToManyField: {'widget': CheckboxSelectMultiple}
     }
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(StockBroker)
