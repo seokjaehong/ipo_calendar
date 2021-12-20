@@ -188,8 +188,8 @@ CACHES = {
 }
 CELERY_ENABLE_UTC = False
 JAZZMIN_SETTINGS = {
-    'site_title': "KETI 437 IPO",
-    'site_header': "KETI 437 IPO",
+    'site_title': "437 Playground",
+    'site_header': "437 Playground",
     "site_logo": "img/keti.png",
     "site_logo_classes": "img-circle",
     # "welcome_sign": "Welcome to the library",
